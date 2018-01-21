@@ -384,6 +384,11 @@ void LightInit()
     max_scheme = LS_MAX + WS2812_SCHEMES;
   }
 #endif  // USE_WS2812 ************************************************************************
+#ifdef USE_I2C_DIMMER // *********************************************************************
+  else if (LT_I2C == light_type) {
+    DimmerInit();
+  }
+#endif // USE_I2C_DIMMER *********************************************************************
   else {
     light_pdi_pin = pin[GPIO_DI];
     light_pdcki_pin = pin[GPIO_DCKI];

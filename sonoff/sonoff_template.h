@@ -88,6 +88,7 @@ enum UserSelectablePins {
   GPIO_SPI_DC,         // SPI Data Direction
   GPIO_BACKLIGHT,      // Display backlight control
   GPIO_PMS5003,        // Plantower PMS5003 Serial interface
+  GPIO_RESET,          // Reset Pin for Dimmer
   GPIO_SENSOR_END };
 
 // Text in webpage Module Parameters and commands GPIOS and GPIO
@@ -221,6 +222,7 @@ enum SupportedModules {
   ARILUX_LC11,
   SONOFF_DUAL_R2,
   ARILUX_LC06,
+  I2C_DIMMER,
   MAXMODULE };
 
 /********************************************************************************************/
@@ -278,7 +280,8 @@ const uint8_t kNiceList[MAXMODULE] PROGMEM = {
   KMC_70011,
   AILIGHT,
   WEMOS,
-  WITTY
+  WITTY,
+  I2C_DIMMER
 };
 
 // Default module settings
@@ -817,6 +820,21 @@ const mytmplt kModules[MAXMODULE] PROGMEM = {
      GPIO_PWM1,        // GPIO14 RGB LED Red
      GPIO_USER,        // GPIO15 RGBW LED White
      0, 0
+  },
+  { "I2C Dimmer",   //  (ESP8266)
+    0,        // GPIO00 D3 Wemos Button Shield
+    0,        // GPIO01 TX Serial RXD
+    0,        // GPIO02 D4 Wemos DHT Shield
+    0,        // GPIO03 RX Serial TXD and Optional sensor
+    GPIO_I2C_SDA,        // GPIO04 D2 Wemos I2C SDA
+    GPIO_I2C_SCL,        // GPIO05 D1 Wemos I2C SCL / Wemos Relay Shield (0 = Off, 1 = On) / Wemos WS2812B RGB led Shield
+    0, 0, 0, 0, 0, 0, // Flash connection
+    0,        // GPIO12 D6
+    0,        // GPIO13 D7
+    0,        // GPIO14 D5
+    0,        // GPIO15 D8
+    GPIO_RESET,        // GPIO16 -> Dimmer Reset PIN
+    0         // ADC0   A0 Analog input
   }
 };
 
