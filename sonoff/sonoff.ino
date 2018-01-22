@@ -2594,6 +2594,9 @@ void GpioInit()
   else if (SONOFF_B1 == Settings.module) {   // RGBWC led
     light_type = LT_RGBWC;
   }
+  else if (I2C_DIMMER == Settings.module) {   // I2C Dimmer
+    light_type = LT_I2C;
+  }
   else {
     if (!light_type) {
       devices_present = 0;

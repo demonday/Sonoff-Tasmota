@@ -35,15 +35,16 @@
 #define I2C_SLAVE_ADDRESS 0x4    // Address of the Dimmer
 #define D_LOG_DIMMER "I2CDIM: "  // Log Prefix
 
-#define FADE_STEP 2
+#define FADE_STEP 3
 
 volatile uint8_t cur_bri = 0;    // Current Brightness of I2C dimmer
 volatile uint8_t target_bri = 0; // Brightness level to get the dimmer to
-volatile int checkCounter=0;     // Slow requests to i2c slave
+volatile uint8_t checkCounter=0;     // Slow requests to i2c slave
+volatile bool reset = false;
 
 void DimmerInit()
 {
-  AddLog_P(LOG_LEVEL_DEBUG, PSTR(D_LOG_DIMMER "DimmerInit"));
+  //AddLog_P(LOG_LEVEL_DEBUG, PSTR(D_LOG_DIMMER "DimmerInit"));
 
   // Send  a RESET and WAIT
   pinMode(pin[GPIO_RESET],OUTPUT);
@@ -75,7 +76,7 @@ ICACHE_RAM_ATTR void dimmer_timer_isr()
   if(cur_bri != target_bri)
   {
     uint8_t req_bri=0;
-    if(Settings.light_fade == 1)
+    if(Settings.light_fade == 1 && abs(cur_bri-target_bri)>FADE_STEP && !reset)
     {
       if(cur_bri > target_bri)
       {
@@ -89,6 +90,7 @@ ICACHE_RAM_ATTR void dimmer_timer_isr()
     else
     {
       req_bri=target_bri;
+      reset=false;
     }
 
     snprintf_P(log_data, sizeof(log_data), PSTR(D_LOG_DIMMER "Change %d"), req_bri);
@@ -103,9 +105,20 @@ ICACHE_RAM_ATTR void dimmer_timer_isr()
   {
       int read = Wire.requestFrom(I2C_SLAVE_ADDRESS, 1);
       uint8_t level = Wire.read();
-      snprintf_P(log_data, sizeof(log_data), PSTR("Dim Level %d:%d"), level, cur_bri);
+      snprintf_P(log_data, sizeof(log_data), PSTR(D_LOG_DIMMER "Brightness %d:%d"), level, cur_bri);
       AddLog(LOG_LEVEL_DEBUG);
-      if(level != cur_bri)
+      if(level==255) //I2C Failed.... reset it....
+      {
+          snprintf_P(log_data, sizeof(log_data), PSTR(D_LOG_DIMMER "Dim Reset"));
+          AddLog(LOG_LEVEL_INFO);
+          digitalWrite(pin[GPIO_RESET],LOW);
+          delay(5);
+          digitalWrite(pin[GPIO_RESET],HIGH);
+          delay(5);
+          reset=true;
+          sendLevel(cur_bri);
+      }
+      else if(level != cur_bri)
       {
         cur_bri = level;
       }
