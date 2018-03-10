@@ -36,9 +36,23 @@
 //#endif
 //#define CFG_HOLDER             0x20161210
 
-//#ifdef STA_SSID1
-//#undef STA_SSID1
-//#endif
-//#define STA_SSID1              "yourssid1"
+#ifdef STA_SSID1
+#undef STA_SSID1
+#endif
+#ifdef STA_PASS1
+#undef STA_PASS1
+#endif
+#define STA_SSID1              "SkyNetSallins"      // [Ssid1] Wifi SSID
+#define STA_PASS1              "nxrxByjun6rf"  // [Password1] Wifi password
+
+#ifdef MQTT_USER
+#undef MQTT_USER
+#endif
+#ifdef MQTT_PASS
+#undef MQTT_PASS
+#endif
+#define MQTT_USER            "demonday"       // [MqttUser] Optional user
+#define MQTT_PASS            "demonday"       // [MqttPassword] Optional password
+
 
 #endif  // _USER_CONFIG_OVERRIDE_H_

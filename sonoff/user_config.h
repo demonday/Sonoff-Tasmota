@@ -81,7 +81,7 @@
   #define MQTT_USER            "cloudmqttuser"      // [MqttUser] Mandatory user
   #define MQTT_PASS            "cloudmqttpassword"  // [MqttPassword] Mandatory password
 #else
-  #define MQTT_HOST            "192.168.178.36"          // [MqttHost]
+  #define MQTT_HOST            "192.168.178.20"          // [MqttHost]
   #define MQTT_PORT            1883              // [MqttPort] MQTT port (10123 on CloudMQTT)
   #define MQTT_USER            "DVES_USER"       // [MqttUser] Optional user
   #define MQTT_PASS            "DVES_PASS"       // [MqttPassword] Optional password
