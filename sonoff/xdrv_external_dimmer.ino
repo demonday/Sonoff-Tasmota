@@ -53,7 +53,7 @@ void DimmerInit()
   digitalWrite(pin[GPIO_RESET],HIGH);
   delay(50);
 
-  Wire.begin();//(5,4);
+  Wire.begin(); //(5,4);
   sendLevel(0); // off
   dimmer_start_timer(); // start the timer
 }

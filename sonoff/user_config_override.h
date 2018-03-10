@@ -45,12 +45,16 @@
 #define STA_SSID1              "SkyNetSallins"      // [Ssid1] Wifi SSID
 #define STA_PASS1              "nxrxByjun6rf"  // [Password1] Wifi password
 
+#ifdef MQTT_HOST
+#undef MQTT_HOST
+#endif
 #ifdef MQTT_USER
 #undef MQTT_USER
 #endif
 #ifdef MQTT_PASS
 #undef MQTT_PASS
 #endif
+#define MQTT_HOST            "192.168.178.20"
 #define MQTT_USER            "demonday"       // [MqttUser] Optional user
 #define MQTT_PASS            "demonday"       // [MqttPassword] Optional password
 
