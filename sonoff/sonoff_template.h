@@ -133,11 +133,12 @@ enum UserSelectablePins {
   GPIO_RFRECV,         // RF receiver
   GPIO_TUYA_TX,        // Tuya Serial interface
   GPIO_TUYA_RX,        // Tuya Serial interface
+  GPIO_RESET,
   GPIO_SENSOR_END };
 
 // Programmer selectable GPIO functionality offset by user selectable GPIOs
 enum ProgramSelectablePins {
-  GPIO_RXD = GPIO_SENSOR_END,  // Serial interface
+  GPIO_RXD = GPIO_SENSOR_END,  // Serial interf,ace
   GPIO_TXD,            // Serial interface
   GPIO_SPI_MISO,       // SPI MISO library fixed pin GPIO12
   GPIO_SPI_MOSI,       // SPI MOSI library fixed pin GPIO13
@@ -250,6 +251,7 @@ enum SupportedModules {
   TECKIN,
   APLIC_WDP303075,
   TUYA_DIMMER,
+  I2C_DIMMER,
   MAXMODULE };
 
 /********************************************************************************************/
@@ -433,7 +435,8 @@ const uint8_t kModuleNiceList[MAXMODULE] PROGMEM = {
   AILIGHT,            // Light Bulbs
   PHILIPS,
   WITTY,              // Development Devices
-  WEMOS
+  WEMOS,
+  I2C_DIMMER
 };
 
 // Default module settings
@@ -1167,7 +1170,22 @@ const mytmplt kModules[MAXMODULE] PROGMEM = {
      GPIO_USER,
      GPIO_USER,
      0
-  }
+  },
+  { "I2C Dimmer",   //  (ESP8266)
+   0,        // GPIO00 D3 Wemos Button Shield
+   0,        // GPIO01 TX Serial RXD
+   0,        // GPIO02 D4 Wemos DHT Shield
+   0,        // GPIO03 RX Serial TXD and Optional sensor
+   GPIO_I2C_SDA,        // GPIO04 D2 Wemos I2C SDA
+   GPIO_I2C_SCL,        // GPIO05 D1 Wemos I2C SCL / Wemos Relay Shield (0 = Off, 1 = On) / Wemos WS2812B RGB led Shield
+   0, 0, 0, 0, 0, 0, // Flash connection
+   0,        // GPIO12 D6
+   0,        // GPIO13 D7
+   0,        // GPIO14 D5
+   0,        // GPIO15 D8
+   GPIO_RESET,        // GPIO16 -> Dimmer Reset PIN
+   0         // ADC0   A0 Analog input
+ }
 };
 
 /*
